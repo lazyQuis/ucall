@@ -8,8 +8,7 @@
     "url": "https://github.com/lazyQuis/ucall.git"
   },
   "dependencies": {
-    "linvodb3": "*",
-    "medeadown": "*"
+    "nedb": "*"
   },
   "author": "chris lin"
 }

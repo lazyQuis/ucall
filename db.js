@@ -1,10 +1,10 @@
 var path = require('path')
-  , LinvoDB = require("linvodb3")
+  , Datastore = require('nedb')
   , DB = function(){
-    LinvoDB.defaults.store = { db: require("medeadown") };
-    LinvoDB.dbPath = path.dirname(process.execPath);
-    this._info = new LinvoDB("info", {});
-  }
+      this.path = path.dirname(process.execPath)+'/db/';
+      var dbName = this.path+'info';
+      this._info = new Datastore({ filename: dbName, autoload: true });
+    }
 
 DB.prototype.phoneRecordList = function(start, count, callback) {
   start = start || 0;
