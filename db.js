@@ -1,15 +1,25 @@
 var path = require('path')
   , Datastore = require('nedb')
   , DB = function(){
-      this.path = path.dirname(process.execPath)+'/db/';
-      var dbName = this.path+'info';
-      this._info = new Datastore({ filename: dbName, autoload: true });
+      this._file = {};
     }
+
+DB.prototype.dbGet = function(name) {
+  if(!this._file[name]){
+    var dbPath = path.dirname(process.execPath)+'/db/';
+    if(process._nw_app){
+      dbPath = process._nw_app.dataPath+'/db/';
+    }
+    var dbName = dbPath+name;
+    this._file[name] = new Datastore({ filename: dbName, autoload: true });
+  }
+  return this._file[name];
+}
 
 DB.prototype.phoneRecordList = function(start, count, callback) {
   start = start || 0;
   count = count || 0;
-  this._info.find({_cate:'callRecord'}).sort({ callDayTime: -1 }).skip(start).limit(count).exec(function (err, docs) {
+  this.dbGet('info').find({_cate:'callRecord'}).sort({ callDayTime: -1 }).skip(start).limit(count).exec(function (err, docs) {
     var data = 'NODATA';
     if(docs.length > 0 || start!=0){
       for(var i in docs){
@@ -29,8 +39,8 @@ DB.prototype.phoneRecordInsert = function(data) {
     console.log('insert:fail');
     return false;
   }
-  this._info.insert(data, function (err, newDoc) {
-    console.log('insert:success');
+  this.dbGet('info').insert(data, function (err, newDoc) {
+    //console.log('insert:success');
     console.log(newDoc);
   });
 };
