@@ -6,14 +6,16 @@ var db = require('./db')
     db:db,
     init:function(){
       var win = guiGet().Window.get();
+      var manifest = process._nw_app.manifest;
       win.on('restore', function() {
-        win.resizeTo(500, 750);
+        win.resizeTo(manifest.window.width, manifest.window.height);
       });
     },
     windowShow:function(){
-    	var win = guiGet().Window.get();
-    	win.show();
-      win.resizeTo(500, 750);
+      var win = guiGet().Window.get();
+      var manifest = process._nw_app.manifest;
+      win.show();
+      win.resizeTo(manifest.window.width, manifest.window.height);
     }
   }
 
