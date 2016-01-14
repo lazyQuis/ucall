@@ -16,6 +16,10 @@ var db = require('./db')
       var manifest = process._nw_app.manifest;
       win.show();
       win.resizeTo(manifest.window.width, manifest.window.height);
+    },
+    urlOpen:function(url){
+      var gui = guiGet();
+      gui.Shell.openExternal(url);
     }
   }
 
