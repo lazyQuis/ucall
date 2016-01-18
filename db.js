@@ -30,18 +30,33 @@ DB.prototype.phoneRecordList = function(start, count, callback) {
     if(typeof callback === 'function'){
       callback(data);
     }
+    console.log(docs.length);
   });
 };
 
+DB.prototype.phoneRecordRemain = function(count){
+  var _me = this;
+  _me.dbGet('info').find({_cate:'callRecord'}).sort({ callDayTime: -1 }).skip(0).limit(count+1).exec(function (err, docs) {
+    if(docs.length<(count+1)){
+      return false;
+    }
+    docs.splice(docs.length-1);
+    _me.dbGet('info').remove({}, { multi: true }, function (err, numRemoved) {
+      _me.dbGet('info').insert(docs);
+    });
+  });
+}
+
 //data:{callType,phoneNumber,name,callDayTime,callDuration}
 DB.prototype.phoneRecordInsert = function(data) {
+  var _me = this;
   if(!data._cate || data._cate !== 'callRecord'){
     console.log('insert:fail');
     return false;
   }
-  this.dbGet('info').insert(data, function (err, newDoc) {
-    //console.log('insert:success');
+  _me.dbGet('info').insert(data, function (err, newDoc) {
     console.log(newDoc);
+    _me.phoneRecordRemain(150);
   });
 };
 
