@@ -15,7 +15,7 @@ exports.urlInfo = function(number,callback) {
     });
     res.on('end', function() {
       var $ = cheerio.load(body);
-      var name = $('span[itemprop=name]').text();
+      var name = $('span[itemprop=name]').text() || '無搜尋結果';
       //console.log(name);
       if(typeof callback === 'function'){
         callback(name);
