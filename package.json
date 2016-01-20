@@ -1,6 +1,6 @@
 {
   "name": "ucall",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ucall by nwjs",
   "private": true,
   "repository": {
@@ -8,7 +8,8 @@
     "url": "https://github.com/lazyQuis/ucall.git"
   },
   "dependencies": {
-    "nedb": "*"
+    "nedb": "1.7.1",
+    "cheerio": "0.19.0"
   },
   "author": "chris lin"
 }
