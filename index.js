@@ -1,3 +1,4 @@
+//useless
 var db = require('./db')
   , pi = require('./pageInfo')
   , guiGet = function(){
